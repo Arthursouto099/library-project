@@ -1,0 +1,70 @@
+
+import { Pencil, Trash2 } from "lucide-react"
+import type { Book } from "../types/book"
+
+interface BookCardProps {
+    book: Book
+    onDelete: (id: string) => void
+    onEdit: (book: Book) => void
+}
+
+
+
+
+export function EditBookInfo({ book, onDelete, onEdit }: BookCardProps) {
+
+
+
+    return (
+        <div className="group relative">
+            {/* AÇÕES */}
+            <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                <button
+                    onClick={() => {
+                        console.log("EDITAR:", book)
+                        onEdit(book)
+                    }}
+                    className="p-1 rounded bg-white shadow hover:bg-slate-100"
+
+                >
+                    <Pencil size={14} />
+                </button>
+
+                <button
+                    onClick={() => onDelete(String(book.idBook))}
+                    className="p-1 rounded bg-white shadow hover:bg-red-100 text-red-600"
+                >
+                    <Trash2 size={14} />
+                </button>
+            </div>
+
+            {/* CAPA */}
+            <div className="aspect-[2/3] w-full overflow-hidden rounded-md bg-muted shadow-sm group-hover:shadow-lg transition">
+                {book.image ? (
+                    <img
+                        src={book.image!}
+                        alt={book.title}
+                        className="h-full w-full object-cover group-hover:scale-105 transition-transform"
+                    />
+                ) : (
+                    <div className="h-full w-full flex items-center justify-center text-xs text-muted-foreground">
+                        Sem capa
+                    </div>
+                )}
+            </div>
+
+            {/* INFO */}
+            <div className="mt-2 space-y-0.5">
+                <p className="text-sm font-medium line-clamp-2">{book.title}</p>
+                <p className="text-xs text-muted-foreground">{book.author}</p>
+                <p className="text-xs">{book.gender}</p>
+
+                {book.status && (
+                    <span className="inline-block text-xs rounded px-2 py-0.5 bg-primary/10 text-primary">
+                        {book.status}
+                    </span>
+                )}
+            </div>
+        </div>
+    )
+}
